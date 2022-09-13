@@ -14,12 +14,7 @@ import android.os.Bundle;
 public class MainActivity extends AppCompatActivity {
     final String CHANNEL_ID = "i.apps.notifications";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        // Basic Stuff
-        super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.activity_main);
-
+    public void sendNotification(String title, String description) {
         // Vibration pattern to vibrate for 500 ms twice
         final long[] VIBRATE_PATTERN = {0, 500, 0, 500};
 
@@ -40,9 +35,9 @@ public class MainActivity extends AppCompatActivity {
         // Create the notification
         final var ntf = new Notification.Builder(this, CHANNEL_ID)
                 // Notification title
-                .setContentTitle("Hello!")
+                .setContentTitle(title)
                 // Notification description
-                .setContentText("This is a notification test")
+                .setContentText(description)
                 // Notification icon
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 // Notification icon when expanded
@@ -53,5 +48,14 @@ public class MainActivity extends AppCompatActivity {
 
         // Send the notification!
         notificationManager.notify(1234, ntf);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        // Basic Stuff
+        super.onCreate(savedInstanceState);
+        this.setContentView(R.layout.activity_main);
+
+        sendNotification("Hello!", "World OwO!");
     }
 }
