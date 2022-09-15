@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
     final String CHANNEL_ID = "i.apps.notifications";
@@ -19,21 +20,21 @@ public class MainActivity extends AppCompatActivity {
         final long[] VIBRATE_PATTERN = {0, 500, 0, 500};
 
         // Configure the vibration pattern for the notification
-        final var notificationChannel = new NotificationChannel(CHANNEL_ID, "channel_name", NotificationManager.IMPORTANCE_HIGH);
+        final NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, "channel_name", NotificationManager.IMPORTANCE_HIGH);
         notificationChannel.setVibrationPattern(VIBRATE_PATTERN);
 
         // Obtain the notification manager
-        final var notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        final NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         // and register the channel with the custom vibration pattern
         notificationManager.createNotificationChannel(notificationChannel);
 
         // Replace the notification with the new one if a previous one exists
         // Otherwise, create a new one.
-        final var intent = new Intent(this, MainActivity.class);
-        final var pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        final Intent intent = new Intent(this, MainActivity.class);
+        final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Create the notification
-        final var ntf = new Notification.Builder(this, CHANNEL_ID)
+        final Notification ntf = new Notification.Builder(this, CHANNEL_ID)
                 // Notification title
                 .setContentTitle(title)
                 // Notification description
@@ -56,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_main);
 
-        sendNotification("Hello!", "World OwO!");
+        this.sendNotification("Hello!", "World OwO!");
+
+        int button = 123;
     }
 }
