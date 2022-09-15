@@ -11,13 +11,14 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
-    final String CHANNEL_ID = "i.apps.notifications";
+    final String CHANNEL_ID = "com.vicky.thefirst";
 
-    public void sendNotification(String title, String description) {
-        // Vibration pattern to vibrate for 500 ms twice
-        final long[] VIBRATE_PATTERN = {0, 500, 0, 500};
+    private void sendNotification(String title, String description) {
+        // Vibration pattern to vibrate for 500 md, to 1000 ms, to 1500 ms
+        final long[] VIBRATE_PATTERN = {0, 500, 100, 1000, 100, 1500};
 
         // Configure the vibration pattern for the notification
         final NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, "channel_name", NotificationManager.IMPORTANCE_HIGH);
@@ -59,6 +60,13 @@ public class MainActivity extends AppCompatActivity {
 
         this.sendNotification("Hello!", "World OwO!");
 
-        int button = 123;
+        EditText editText = findViewById(R.id.editTextTextPersonName);
+        Button button = findViewById(R.id.button);
+
+        button.setOnClickListener(v -> {
+            String message = editText.getText().toString();
+
+            sendNotification("Hello!", message);
+        });
     }
 }
