@@ -2,6 +2,7 @@ package com.vicky.thefirst;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ApplicationErrorReport;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -9,6 +10,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.os.BatteryManager;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Obtain the notification manager
         final NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        // Delete the previous channel so the values update
+        notificationManager.deleteNotificationChannel(CHANNEL_ID);
         // and register the channel with the custom vibration pattern
         notificationManager.createNotificationChannel(notificationChannel);
 
@@ -63,10 +67,28 @@ public class MainActivity extends AppCompatActivity {
         EditText editText = findViewById(R.id.editTextTextPersonName);
         Button button = findViewById(R.id.button);
 
+        EditText value1 = findViewById(R.id.etnValue1);
+        EditText value2 = findViewById(R.id.etnValue2);
+
+        BatteryManager batteryManager = (BatteryManager) getSystemService(BATTERY_SERVICE);
+
         button.setOnClickListener(v -> {
             String message = editText.getText().toString();
+            int batteryLevel = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
 
-            sendNotification("Hello!", message);
+            String textValue1 = value1.getText().toString();
+            String textValue2 = value2.getText().toString();
+
+            if (textValue1.isEmpty() || textValue2.isEmpty()) {
+                this.sendNotification("Error!", "Please enter a value!");
+                return;
+            }
+
+            int value1Int = Integer.parseInt(textValue1);
+            int value2Int = Integer.parseInt(textValue2);
+            int result = value1Int + value2Int;
+
+            this.sendNotification("Battery Level", batteryLevel + "% - " + result + " - " + message);
         });
     }
 }
